@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responder_admin/utils/colors.dart';
 import 'package:responder_admin/widgets/text_widget.dart';
 
 class AnalyticsTab extends StatelessWidget {
@@ -56,7 +57,7 @@ class AnalyticsTab extends StatelessWidget {
             width: 600,
             height: 200,
             decoration: BoxDecoration(
-              color: Colors.grey,
+              color: primary,
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -76,9 +77,86 @@ class AnalyticsTab extends StatelessWidget {
             width: 600,
             height: 200,
             decoration: BoxDecoration(
-              color: Colors.grey,
+              color: primary,
               borderRadius: BorderRadius.circular(10),
             ),
+            child: DataTable(columns: [
+              DataColumn(
+                label: TextWidget(
+                    text: 'Baranggay',
+                    fontSize: 18,
+                    fontFamily: 'Bold',
+                    color: Colors.white),
+              ),
+              DataColumn(
+                label: TextWidget(
+                    text: 'Name',
+                    fontSize: 18,
+                    fontFamily: 'Bold',
+                    color: Colors.white),
+              ),
+              DataColumn(
+                label: TextWidget(
+                    text: 'Date',
+                    fontSize: 18,
+                    fontFamily: 'Bold',
+                    color: Colors.white),
+              ),
+              DataColumn(
+                label: TextWidget(
+                    text: 'Incident',
+                    fontSize: 18,
+                    fontFamily: 'Bold',
+                    color: Colors.white),
+              ),
+              DataColumn(
+                label: TextWidget(
+                    text: 'Status',
+                    fontSize: 18,
+                    fontFamily: 'Bold',
+                    color: Colors.white),
+              ),
+            ], rows: [
+              DataRow(
+                cells: [
+                  DataCell(
+                    TextWidget(
+                        text: 'Sample',
+                        fontSize: 14,
+                        fontFamily: 'Regular',
+                        color: Colors.white),
+                  ),
+                  DataCell(
+                    TextWidget(
+                        text: 'Sample',
+                        fontSize: 14,
+                        fontFamily: 'Regular',
+                        color: Colors.white),
+                  ),
+                  DataCell(
+                    TextWidget(
+                        text: 'Sample',
+                        fontSize: 14,
+                        fontFamily: 'Regular',
+                        color: Colors.white),
+                  ),
+                  DataCell(
+                    TextWidget(
+                        text: 'Sample',
+                        fontSize: 14,
+                        fontFamily: 'Regular',
+                        color: Colors.white),
+                  ),
+                  DataCell(
+                    TextWidget(
+                        text: 'Sample',
+                        fontSize: 14,
+                        fontFamily: 'Regular',
+                        color: Colors.white),
+                  ),
+                ],
+              ),
+            ]),
           ),
         ],
       ),

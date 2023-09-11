@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responder_admin/utils/colors.dart';
 import 'package:responder_admin/widgets/text_widget.dart';
 
 class DashboardTab extends StatelessWidget {
@@ -56,7 +57,7 @@ class DashboardTab extends StatelessWidget {
             width: 600,
             height: 200,
             decoration: BoxDecoration(
-              color: Colors.grey,
+              color: primary,
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -73,8 +74,30 @@ class DashboardTab extends StatelessWidget {
                     width: 225,
                     height: 175,
                     decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: primary,
                       borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextWidget(
+                              text: '24',
+                              fontSize: 32,
+                              fontFamily: 'Bold',
+                              color: Colors.white),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextWidget(
+                              text: 'Total Reports',
+                              fontSize: 14,
+                              fontFamily: 'Regular',
+                              color: Colors.white),
+                        ],
+                      ),
                     ),
                   ),
                 ),
