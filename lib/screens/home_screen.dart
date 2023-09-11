@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:responder_admin/screens/tabs/analytics_tab.dart';
+import 'package:responder_admin/screens/tabs/announcement_tab.dart';
+import 'package:responder_admin/screens/tabs/dashboard_tab.dart';
+import 'package:responder_admin/screens/tabs/messages_tab.dart';
 import 'package:responder_admin/utils/colors.dart';
 import 'package:responder_admin/widgets/text_widget.dart';
 
@@ -128,6 +132,13 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(
             width: 50,
           ),
+          dashboard
+              ? const DashboardTab()
+              : analytics
+                  ? const AnalyticsTab()
+                  : announcements
+                      ? const AnnouncementTab()
+                      : const MessagesTab()
         ],
       ),
     );
