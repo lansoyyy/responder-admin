@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:responder_admin/utils/colors.dart';
 import 'package:responder_admin/widgets/text_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool dashboard = true;
+  bool analytics = false;
+  bool announcements = false;
+  bool messages = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,65 +42,91 @@ class HomeScreen extends StatelessWidget {
                     height: 50,
                   ),
                   ListTile(
-                    leading: const Icon(
+                    onTap: () {
+                      setState(() {
+                        dashboard = true;
+                        analytics = false;
+                        messages = false;
+                        announcements = false;
+                      });
+                    },
+                    leading: Icon(
                       Icons.dashboard,
-                      color: Colors.white,
+                      color: dashboard ? Colors.white : Colors.grey,
                     ),
                     title: TextWidget(
                       text: 'Dashboard',
                       fontSize: 18,
                       fontFamily: 'Bold',
-                      color: Colors.white,
+                      color: dashboard ? Colors.white : Colors.grey,
                     ),
                   ),
                   const Divider(
                     color: Colors.white,
                   ),
                   ListTile(
-                    leading: const Icon(
-                      Icons.analytics,
-                      color: Colors.white,
-                    ),
+                    onTap: () {
+                      setState(() {
+                        dashboard = false;
+                        analytics = true;
+                        messages = false;
+                        announcements = false;
+                      });
+                    },
+                    leading: Icon(Icons.analytics,
+                        color: analytics ? Colors.white : Colors.grey),
                     title: TextWidget(
-                      text: 'Analytics',
-                      fontSize: 18,
-                      fontFamily: 'Bold',
-                      color: Colors.white,
-                    ),
+                        text: 'Analytics',
+                        fontSize: 18,
+                        fontFamily: 'Bold',
+                        color: analytics ? Colors.white : Colors.grey),
                   ),
                   const Divider(
                     color: Colors.white,
                   ),
                   ListTile(
-                    leading: const Icon(
-                      Icons.announcement,
-                      color: Colors.white,
-                    ),
+                    onTap: () {
+                      setState(() {
+                        dashboard = false;
+                        analytics = false;
+                        messages = false;
+                        announcements = true;
+                      });
+                    },
+                    leading: Icon(Icons.announcement,
+                        color: announcements ? Colors.white : Colors.grey),
                     title: TextWidget(
-                      text: 'Announcements',
-                      fontSize: 18,
-                      fontFamily: 'Bold',
-                      color: Colors.white,
-                    ),
+                        text: 'Announcements',
+                        fontSize: 18,
+                        fontFamily: 'Bold',
+                        color: announcements ? Colors.white : Colors.grey),
                   ),
                   const Divider(
                     color: Colors.white,
                   ),
                   ListTile(
-                    leading: const Icon(
-                      Icons.message,
-                      color: Colors.white,
-                    ),
+                    onTap: () {
+                      setState(() {
+                        dashboard = false;
+                        analytics = false;
+                        messages = true;
+                        announcements = false;
+                      });
+                    },
+                    leading: Icon(Icons.message,
+                        color: messages ? Colors.white : Colors.grey),
                     title: TextWidget(
-                      text: 'Messages',
-                      fontSize: 18,
-                      fontFamily: 'Bold',
-                      color: Colors.white,
-                    ),
+                        text: 'Messages',
+                        fontSize: 18,
+                        fontFamily: 'Bold',
+                        color: messages ? Colors.white : Colors.grey),
                   ),
                 ],
               ),
             ),
+          ),
+          const SizedBox(
+            width: 50,
           ),
         ],
       ),
