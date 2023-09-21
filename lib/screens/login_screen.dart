@@ -3,6 +3,7 @@ import 'package:responder_admin/screens/home_screen.dart';
 import 'package:responder_admin/widgets/button_widget.dart';
 import 'package:responder_admin/widgets/text_widget.dart';
 import 'package:responder_admin/widgets/textfield_widget.dart';
+import 'package:responder_admin/widgets/toast_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -57,8 +58,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ButtonWidget(
               label: 'Login',
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const HomeScreen()));
+                if (usernameController.text == 'admin-username' &&
+                    passwordController.text == 'admin-password') {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const HomeScreen()));
+                } else {
+                  showToast('Incorrect admin credentials!');
+                }
               },
             ),
           ],
