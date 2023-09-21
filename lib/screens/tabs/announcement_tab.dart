@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:responder_admin/services/add_announcements.dart';
 import 'package:responder_admin/widgets/text_widget.dart';
 
 import '../../widgets/textfield_widget.dart';
@@ -50,37 +52,66 @@ class _AnnouncementTabState extends State<AnnouncementTab> {
           const SizedBox(
             height: 20,
           ),
-          SizedBox(
-            width: 400,
-            height: 600,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: const Icon(
-                    Icons.info,
-                  ),
-                  title: TextWidget(
-                    text: 'Title of the Announcements',
-                    fontSize: 18,
-                    color: Colors.black,
-                    fontFamily: 'Bold',
-                  ),
-                  subtitle: TextWidget(
-                    text: 'Description of the Announcements',
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    ),
+          StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('Announcements')
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return const Center(child: Text('Error'));
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  print('waiting');
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 50),
+                    child: Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.black,
+                    )),
+                  );
+                }
+
+                final data = snapshot.requireData;
+                return SizedBox(
+                  width: 400,
+                  height: 600,
+                  child: ListView.builder(
+                    itemCount: data.docs.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: const Icon(
+                          Icons.info,
+                        ),
+                        title: TextWidget(
+                          text: data.docs[index]['name'],
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontFamily: 'Bold',
+                        ),
+                        subtitle: TextWidget(
+                          text: data.docs[index]['desc'],
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                        trailing: IconButton(
+                          onPressed: () async {
+                            await FirebaseFirestore.instance
+                                .collection('Announcements')
+                                .doc(data.docs[index].id)
+                                .delete();
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 );
-              },
-            ),
-          ),
+              }),
         ],
       ),
     );
@@ -129,6 +160,7 @@ class _AnnouncementTabState extends State<AnnouncementTab> {
             TextButton(
               onPressed: () {
                 // addAnnouncement('', nameController.text, descController.text);
+                addAnnouncements(nameController.text, descController.text);
                 Navigator.pop(context);
               },
               child: TextWidget(
