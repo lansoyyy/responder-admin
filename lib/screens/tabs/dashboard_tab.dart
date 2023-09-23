@@ -122,72 +122,119 @@ class DashboardTab extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Container(
-                  width: 300,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: primary,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextWidget(
-                            text: '24',
-                            fontSize: 32,
-                            fontFamily: 'Bold',
-                            color: Colors.white),
-                        const SizedBox(
-                          height: 10,
+              StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('Reports')
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      print(snapshot.error);
+                      return const Center(child: Text('Error'));
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      print('waiting');
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 50),
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          color: Colors.black,
+                        )),
+                      );
+                    }
+
+                    final data = snapshot.requireData;
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Container(
+                        width: 300,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: primary,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        TextWidget(
-                            text: 'Total Reports',
-                            fontSize: 14,
-                            fontFamily: 'Regular',
-                            color: Colors.white),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Container(
-                  width: 300,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: primary,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextWidget(
-                            text: '24',
-                            fontSize: 32,
-                            fontFamily: 'Bold',
-                            color: Colors.white),
-                        const SizedBox(
-                          height: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextWidget(
+                                  text: data.docs.length.toString(),
+                                  fontSize: 32,
+                                  fontFamily: 'Bold',
+                                  color: Colors.white),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextWidget(
+                                  text: 'Total Reports',
+                                  fontSize: 14,
+                                  fontFamily: 'Regular',
+                                  color: Colors.white),
+                            ],
+                          ),
                         ),
-                        TextWidget(
-                            text: 'Total Reports',
-                            fontSize: 14,
-                            fontFamily: 'Regular',
-                            color: Colors.white),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                      ),
+                    );
+                  }),
+              StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('Reports')
+                      .where('status', isEqualTo: 'Pending')
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      print(snapshot.error);
+                      return const Center(child: Text('Error'));
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      print('waiting');
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 50),
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          color: Colors.black,
+                        )),
+                      );
+                    }
+
+                    final data = snapshot.requireData;
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Container(
+                        width: 300,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: primary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextWidget(
+                                  text: data.docs.length.toString(),
+                                  fontSize: 32,
+                                  fontFamily: 'Bold',
+                                  color: Colors.white),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextWidget(
+                                  text: 'Pending Reports',
+                                  fontSize: 14,
+                                  fontFamily: 'Regular',
+                                  color: Colors.white),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
             ],
           ),
           const SizedBox(
@@ -196,72 +243,120 @@ class DashboardTab extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Container(
-                  width: 300,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: primary,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextWidget(
-                            text: '24',
-                            fontSize: 32,
-                            fontFamily: 'Bold',
-                            color: Colors.white),
-                        const SizedBox(
-                          height: 10,
+              StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('Reports')
+                      .where('status', isEqualTo: 'Rejected')
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      print(snapshot.error);
+                      return const Center(child: Text('Error'));
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      print('waiting');
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 50),
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          color: Colors.black,
+                        )),
+                      );
+                    }
+
+                    final data = snapshot.requireData;
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Container(
+                        width: 300,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: primary,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        TextWidget(
-                            text: 'Total Reports',
-                            fontSize: 14,
-                            fontFamily: 'Regular',
-                            color: Colors.white),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Container(
-                  width: 300,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: primary,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextWidget(
-                            text: '24',
-                            fontSize: 32,
-                            fontFamily: 'Bold',
-                            color: Colors.white),
-                        const SizedBox(
-                          height: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextWidget(
+                                  text: data.docs.length.toString(),
+                                  fontSize: 32,
+                                  fontFamily: 'Bold',
+                                  color: Colors.white),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextWidget(
+                                  text: 'Rejected Reports',
+                                  fontSize: 14,
+                                  fontFamily: 'Regular',
+                                  color: Colors.white),
+                            ],
+                          ),
                         ),
-                        TextWidget(
-                            text: 'Total Reports',
-                            fontSize: 14,
-                            fontFamily: 'Regular',
-                            color: Colors.white),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                      ),
+                    );
+                  }),
+              StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('Reports')
+                      .where('status', isEqualTo: 'Accepted')
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      print(snapshot.error);
+                      return const Center(child: Text('Error'));
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      print('waiting');
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 50),
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          color: Colors.black,
+                        )),
+                      );
+                    }
+
+                    final data = snapshot.requireData;
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Container(
+                        width: 300,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: primary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextWidget(
+                                  text: data.docs.length.toString(),
+                                  fontSize: 32,
+                                  fontFamily: 'Bold',
+                                  color: Colors.white),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextWidget(
+                                  text: 'Accepted Reports',
+                                  fontSize: 14,
+                                  fontFamily: 'Regular',
+                                  color: Colors.white),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
             ],
           ),
         ],
