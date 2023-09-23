@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:responder_admin/utils/colors.dart';
 import 'package:responder_admin/widgets/text_widget.dart';
 
@@ -31,7 +33,71 @@ class AnalyticsTab extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: StreamBuilder<QuerySnapshot>(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('Reports')
+                                      .snapshots(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                                    if (snapshot.hasError) {
+                                      print(snapshot.error);
+                                      return const Center(child: Text('Error'));
+                                    }
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      print('waiting');
+                                      return const Padding(
+                                        padding: EdgeInsets.only(top: 50),
+                                        child: Center(
+                                            child: CircularProgressIndicator(
+                                          color: Colors.black,
+                                        )),
+                                      );
+                                    }
+
+                                    final data = snapshot.requireData;
+                                    return SizedBox(
+                                      width: 400,
+                                      height: 400,
+                                      child: ListView.builder(
+                                        itemCount: data.docs.length,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                              title: TextWidget(
+                                                text:
+                                                    '${data.docs[index]['name']} added a report',
+                                                fontSize: 18,
+                                                color: Colors.black,
+                                                fontFamily: 'Bold',
+                                              ),
+                                              subtitle: TextWidget(
+                                                text: data.docs[index]
+                                                    ['caption'],
+                                                fontSize: 12,
+                                                color: Colors.grey,
+                                              ),
+                                              trailing: TextWidget(
+                                                text: DateFormat.yMMMd()
+                                                    .add_jm()
+                                                    .format(data.docs[index]
+                                                            ['dateTime']
+                                                        .toDate()),
+                                                fontSize: 12,
+                                                color: Colors.grey,
+                                              ));
+                                        },
+                                      ),
+                                    );
+                                  }),
+                            );
+                          },
+                        );
+                      },
                       icon: const Icon(
                         Icons.notifications,
                       ),
