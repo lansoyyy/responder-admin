@@ -182,91 +182,116 @@ class AnalyticsTab extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Container(
-            width: 600,
-            height: 200,
-            decoration: BoxDecoration(
-              color: primary,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: DataTable(columns: [
-              DataColumn(
-                label: TextWidget(
-                    text: 'Baranggay',
-                    fontSize: 18,
-                    fontFamily: 'Bold',
-                    color: Colors.white),
-              ),
-              DataColumn(
-                label: TextWidget(
-                    text: 'Name',
-                    fontSize: 18,
-                    fontFamily: 'Bold',
-                    color: Colors.white),
-              ),
-              DataColumn(
-                label: TextWidget(
-                    text: 'Date',
-                    fontSize: 18,
-                    fontFamily: 'Bold',
-                    color: Colors.white),
-              ),
-              DataColumn(
-                label: TextWidget(
-                    text: 'Incident',
-                    fontSize: 18,
-                    fontFamily: 'Bold',
-                    color: Colors.white),
-              ),
-              DataColumn(
-                label: TextWidget(
-                    text: 'Status',
-                    fontSize: 18,
-                    fontFamily: 'Bold',
-                    color: Colors.white),
-              ),
-            ], rows: [
-              DataRow(
-                cells: [
-                  DataCell(
-                    TextWidget(
-                        text: 'Sample',
-                        fontSize: 14,
-                        fontFamily: 'Regular',
-                        color: Colors.white),
+          StreamBuilder<QuerySnapshot>(
+              stream:
+                  FirebaseFirestore.instance.collection('Reports').snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return const Center(child: Text('Error'));
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  print('waiting');
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 50),
+                    child: Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.black,
+                    )),
+                  );
+                }
+
+                final data = snapshot.requireData;
+                return Container(
+                  width: 700,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  DataCell(
-                    TextWidget(
-                        text: 'Sample',
-                        fontSize: 14,
-                        fontFamily: 'Regular',
-                        color: Colors.white),
-                  ),
-                  DataCell(
-                    TextWidget(
-                        text: 'Sample',
-                        fontSize: 14,
-                        fontFamily: 'Regular',
-                        color: Colors.white),
-                  ),
-                  DataCell(
-                    TextWidget(
-                        text: 'Sample',
-                        fontSize: 14,
-                        fontFamily: 'Regular',
-                        color: Colors.white),
-                  ),
-                  DataCell(
-                    TextWidget(
-                        text: 'Sample',
-                        fontSize: 14,
-                        fontFamily: 'Regular',
-                        color: Colors.white),
-                  ),
-                ],
-              ),
-            ]),
-          ),
+                  child: DataTable(columns: [
+                    DataColumn(
+                      label: TextWidget(
+                          text: 'Baranggay',
+                          fontSize: 18,
+                          fontFamily: 'Bold',
+                          color: Colors.white),
+                    ),
+                    DataColumn(
+                      label: TextWidget(
+                          text: 'Name',
+                          fontSize: 18,
+                          fontFamily: 'Bold',
+                          color: Colors.white),
+                    ),
+                    DataColumn(
+                      label: TextWidget(
+                          text: 'Date',
+                          fontSize: 18,
+                          fontFamily: 'Bold',
+                          color: Colors.white),
+                    ),
+                    DataColumn(
+                      label: TextWidget(
+                          text: 'Incident',
+                          fontSize: 18,
+                          fontFamily: 'Bold',
+                          color: Colors.white),
+                    ),
+                    DataColumn(
+                      label: TextWidget(
+                          text: 'Status',
+                          fontSize: 18,
+                          fontFamily: 'Bold',
+                          color: Colors.white),
+                    ),
+                  ], rows: [
+                    for (int i = 0; i < data.docs.length; i++)
+                      DataRow(
+                        cells: [
+                          DataCell(
+                            TextWidget(
+                                text: data.docs[i]['address'],
+                                fontSize: 14,
+                                fontFamily: 'Regular',
+                                color: Colors.white),
+                          ),
+                          DataCell(
+                            TextWidget(
+                                text: data.docs[i]['name'],
+                                fontSize: 14,
+                                fontFamily: 'Regular',
+                                color: Colors.white),
+                          ),
+                          DataCell(
+                            TextWidget(
+                                text: DateFormat.yMMMd()
+                                    .add_jm()
+                                    .format(data.docs[i]['dateTime'].toDate()),
+                                fontSize: 14,
+                                fontFamily: 'Regular',
+                                color: Colors.white),
+                          ),
+                          DataCell(
+                            TextWidget(
+                                text: data.docs[i]['caption'],
+                                fontSize: 14,
+                                fontFamily: 'Regular',
+                                color: Colors.white),
+                          ),
+                          DataCell(
+                            TextWidget(
+                                text: data.docs[i]['status'],
+                                fontSize: 14,
+                                fontFamily: 'Regular',
+                                color: Colors.white),
+                          ),
+                        ],
+                      ),
+                  ]),
+                );
+              }),
         ],
       ),
     );
