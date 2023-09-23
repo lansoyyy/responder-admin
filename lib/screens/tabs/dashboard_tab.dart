@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:responder_admin/utils/colors.dart';
 import 'package:responder_admin/widgets/text_widget.dart';
 
@@ -31,7 +33,71 @@ class DashboardTab extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: StreamBuilder<QuerySnapshot>(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('Reports')
+                                      .snapshots(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                                    if (snapshot.hasError) {
+                                      print(snapshot.error);
+                                      return const Center(child: Text('Error'));
+                                    }
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      print('waiting');
+                                      return const Padding(
+                                        padding: EdgeInsets.only(top: 50),
+                                        child: Center(
+                                            child: CircularProgressIndicator(
+                                          color: Colors.black,
+                                        )),
+                                      );
+                                    }
+
+                                    final data = snapshot.requireData;
+                                    return SizedBox(
+                                      width: 400,
+                                      height: 400,
+                                      child: ListView.builder(
+                                        itemCount: data.docs.length,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                              title: TextWidget(
+                                                text:
+                                                    '${data.docs[index]['name']} added a report',
+                                                fontSize: 18,
+                                                color: Colors.black,
+                                                fontFamily: 'Bold',
+                                              ),
+                                              subtitle: TextWidget(
+                                                text: data.docs[index]
+                                                    ['caption'],
+                                                fontSize: 12,
+                                                color: Colors.grey,
+                                              ),
+                                              trailing: TextWidget(
+                                                text: DateFormat.yMMMd()
+                                                    .add_jm()
+                                                    .format(data.docs[index]
+                                                            ['dateTime']
+                                                        .toDate()),
+                                                fontSize: 12,
+                                                color: Colors.grey,
+                                              ));
+                                        },
+                                      ),
+                                    );
+                                  }),
+                            );
+                          },
+                        );
+                      },
                       icon: const Icon(
                         Icons.notifications,
                       ),
@@ -53,54 +119,149 @@ class DashboardTab extends StatelessWidget {
           const SizedBox(
             height: 50,
           ),
-          Container(
-            width: 600,
-            height: 200,
-            decoration: BoxDecoration(
-              color: primary,
-              borderRadius: BorderRadius.circular(10),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Container(
+                  width: 300,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextWidget(
+                            text: '24',
+                            fontSize: 32,
+                            fontFamily: 'Bold',
+                            color: Colors.white),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextWidget(
+                            text: 'Total Reports',
+                            fontSize: 14,
+                            fontFamily: 'Regular',
+                            color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Container(
+                  width: 300,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextWidget(
+                            text: '24',
+                            fontSize: 32,
+                            fontFamily: 'Bold',
+                            color: Colors.white),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextWidget(
+                            text: 'Total Reports',
+                            fontSize: 14,
+                            fontFamily: 'Regular',
+                            color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(
-            height: 50,
+            height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              for (int i = 0; i < 4; i++)
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Container(
-                    width: 225,
-                    height: 175,
-                    decoration: BoxDecoration(
-                      color: primary,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextWidget(
-                              text: '24',
-                              fontSize: 32,
-                              fontFamily: 'Bold',
-                              color: Colors.white),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextWidget(
-                              text: 'Total Reports',
-                              fontSize: 14,
-                              fontFamily: 'Regular',
-                              color: Colors.white),
-                        ],
-                      ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Container(
+                  width: 300,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextWidget(
+                            text: '24',
+                            fontSize: 32,
+                            fontFamily: 'Bold',
+                            color: Colors.white),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextWidget(
+                            text: 'Total Reports',
+                            fontSize: 14,
+                            fontFamily: 'Regular',
+                            color: Colors.white),
+                      ],
                     ),
                   ),
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Container(
+                  width: 300,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextWidget(
+                            text: '24',
+                            fontSize: 32,
+                            fontFamily: 'Bold',
+                            color: Colors.white),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextWidget(
+                            text: 'Total Reports',
+                            fontSize: 14,
+                            fontFamily: 'Regular',
+                            color: Colors.white),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ],
