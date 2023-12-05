@@ -103,7 +103,11 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
           });
         }
       }
-    }).then((value) {});
+    }).then((value) {
+      setState(() {
+        hasLoaded = true;
+      });
+    });
   }
 
   @override
