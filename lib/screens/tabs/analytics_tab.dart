@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:responder_admin/utils/colors.dart';
 import 'package:responder_admin/widgets/text_widget.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -287,8 +286,8 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                   width: 600,
                   height: 200,
                   decoration: BoxDecoration(
-                    color: primary,
                     borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.black),
                   ),
                   child: SfCartesianChart(
                     // Primary X and Y axes configuration
@@ -303,7 +302,7 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                     ),
                     series: <ChartSeries>[
                       // Renders line chart
-                      LineSeries<SalesData, int>(
+                      ColumnSeries<SalesData, int>(
                         dataSource: chartData,
                         xValueMapper: (SalesData sales, _) => sales.year,
                         yValueMapper: (SalesData sales, _) => sales.sales,
@@ -349,7 +348,7 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                         width: 700,
                         height: 200,
                         decoration: BoxDecoration(
-                          color: primary,
+                          border: Border.all(color: Colors.black),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: DataTable(columns: [
@@ -358,35 +357,35 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                                 text: 'Baranggay',
                                 fontSize: 18,
                                 fontFamily: 'Bold',
-                                color: Colors.white),
+                                color: Colors.black),
                           ),
                           DataColumn(
                             label: TextWidget(
                                 text: 'Name',
                                 fontSize: 18,
                                 fontFamily: 'Bold',
-                                color: Colors.white),
+                                color: Colors.black),
                           ),
                           DataColumn(
                             label: TextWidget(
                                 text: 'Date',
                                 fontSize: 18,
                                 fontFamily: 'Bold',
-                                color: Colors.white),
+                                color: Colors.black),
                           ),
                           DataColumn(
                             label: TextWidget(
                                 text: 'Incident',
                                 fontSize: 18,
                                 fontFamily: 'Bold',
-                                color: Colors.white),
+                                color: Colors.black),
                           ),
                           DataColumn(
                             label: TextWidget(
                                 text: 'Status',
                                 fontSize: 18,
                                 fontFamily: 'Bold',
-                                color: Colors.white),
+                                color: Colors.black),
                           ),
                         ], rows: [
                           for (int i = 0; i < data.docs.length; i++)
@@ -397,14 +396,14 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                                       text: data.docs[i]['address'],
                                       fontSize: 14,
                                       fontFamily: 'Regular',
-                                      color: Colors.white),
+                                      color: Colors.grey),
                                 ),
                                 DataCell(
                                   TextWidget(
                                       text: data.docs[i]['name'],
                                       fontSize: 14,
                                       fontFamily: 'Regular',
-                                      color: Colors.white),
+                                      color: Colors.grey),
                                 ),
                                 DataCell(
                                   TextWidget(
@@ -412,21 +411,21 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                                           data.docs[i]['dateTime'].toDate()),
                                       fontSize: 14,
                                       fontFamily: 'Regular',
-                                      color: Colors.white),
+                                      color: Colors.grey),
                                 ),
                                 DataCell(
                                   TextWidget(
                                       text: data.docs[i]['caption'],
                                       fontSize: 14,
                                       fontFamily: 'Regular',
-                                      color: Colors.white),
+                                      color: Colors.grey),
                                 ),
                                 DataCell(
                                   TextWidget(
                                       text: data.docs[i]['status'],
                                       fontSize: 14,
                                       fontFamily: 'Regular',
-                                      color: Colors.white),
+                                      color: Colors.grey),
                                 ),
                               ],
                             ),
