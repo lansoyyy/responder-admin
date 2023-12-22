@@ -108,23 +108,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Divider(
                     color: Colors.white,
                   ),
-                  // ListTile(
-                  //   onTap: () {
-                  //     setState(() {
-                  //       dashboard = false;
-                  //       analytics = false;
-                  //       messages = true;
-                  //       announcements = false;
-                  //     });
-                  //   },
-                  //   leading: Icon(Icons.message,
-                  //       color: messages ? Colors.white : Colors.grey),
-                  //   title: TextWidget(
-                  //       text: 'Messages',
-                  //       fontSize: 18,
-                  //       fontFamily: 'Bold',
-                  //       color: messages ? Colors.white : Colors.grey),
-                  // ),
+                  ListTile(
+                    onTap: () {
+                      setState(() {
+                        dashboard = false;
+                        analytics = false;
+                        messages = true;
+                        announcements = false;
+                      });
+                    },
+                    leading: Icon(Icons.message,
+                        color: messages ? Colors.white : Colors.grey),
+                    title: TextWidget(
+                        text: 'Messages',
+                        fontSize: 18,
+                        fontFamily: 'Bold',
+                        color: messages ? Colors.white : Colors.grey),
+                  ),
                 ],
               ),
             ),
@@ -132,13 +132,15 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(
             width: 50,
           ),
-          dashboard
-              ? const DashboardTab()
-              : analytics
-                  ? const AnalyticsTab()
-                  : announcements
-                      ? const AnnouncementTab()
-                      : const SizedBox()
+          messages
+              ? const MessagesTab()
+              : dashboard
+                  ? const DashboardTab()
+                  : analytics
+                      ? const AnalyticsTab()
+                      : announcements
+                          ? const AnnouncementTab()
+                          : const SizedBox()
         ],
       ),
     );
