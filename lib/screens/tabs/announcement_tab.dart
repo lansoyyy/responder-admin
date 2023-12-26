@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:responder_admin/services/add_announcements.dart';
+import 'package:responder_admin/services/add_notif.dart';
 import 'package:responder_admin/widgets/text_widget.dart';
 
 import '../../widgets/textfield_widget.dart';
@@ -159,6 +160,8 @@ class _AnnouncementTabState extends State<AnnouncementTab> {
             ),
             TextButton(
               onPressed: () {
+                addNotif(
+                    'ADMIN', '', '', 'Admin added an announcement', '', 0, 0);
                 // addAnnouncement('', nameController.text, descController.text);
                 addAnnouncements(nameController.text, descController.text);
                 Navigator.pop(context);
