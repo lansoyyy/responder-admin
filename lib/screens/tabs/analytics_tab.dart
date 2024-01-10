@@ -351,85 +351,89 @@ class _AnalyticsTabState extends State<AnalyticsTab> {
                           border: Border.all(color: Colors.black),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: DataTable(columns: [
-                          DataColumn(
-                            label: TextWidget(
-                                text: 'Baranggay',
-                                fontSize: 18,
-                                fontFamily: 'Bold',
-                                color: Colors.black),
-                          ),
-                          DataColumn(
-                            label: TextWidget(
-                                text: 'Name',
-                                fontSize: 18,
-                                fontFamily: 'Bold',
-                                color: Colors.black),
-                          ),
-                          DataColumn(
-                            label: TextWidget(
-                                text: 'Date',
-                                fontSize: 18,
-                                fontFamily: 'Bold',
-                                color: Colors.black),
-                          ),
-                          DataColumn(
-                            label: TextWidget(
-                                text: 'Incident',
-                                fontSize: 18,
-                                fontFamily: 'Bold',
-                                color: Colors.black),
-                          ),
-                          DataColumn(
-                            label: TextWidget(
-                                text: 'Status',
-                                fontSize: 18,
-                                fontFamily: 'Bold',
-                                color: Colors.black),
-                          ),
-                        ], rows: [
-                          for (int i = 0; i < data.docs.length; i++)
-                            DataRow(
-                              cells: [
-                                DataCell(
-                                  TextWidget(
-                                      text: data.docs[i]['address'],
-                                      fontSize: 14,
-                                      fontFamily: 'Regular',
-                                      color: Colors.grey),
-                                ),
-                                DataCell(
-                                  TextWidget(
-                                      text: data.docs[i]['name'],
-                                      fontSize: 14,
-                                      fontFamily: 'Regular',
-                                      color: Colors.grey),
-                                ),
-                                DataCell(
-                                  TextWidget(
-                                      text: DateFormat.yMMMd().add_jm().format(
-                                          data.docs[i]['dateTime'].toDate()),
-                                      fontSize: 14,
-                                      fontFamily: 'Regular',
-                                      color: Colors.grey),
-                                ),
-                                DataCell(
-                                  TextWidget(
-                                      text: data.docs[i]['caption'],
-                                      fontSize: 14,
-                                      fontFamily: 'Regular',
-                                      color: Colors.grey),
-                                ),
-                                DataCell(
-                                  TextWidget(
-                                      text: data.docs[i]['status'],
-                                      fontSize: 14,
-                                      fontFamily: 'Regular',
-                                      color: Colors.grey),
-                                ),
-                              ],
+                        child: SingleChildScrollView(
+                          child: DataTable(columns: [
+                            DataColumn(
+                              label: TextWidget(
+                                  text: 'Baranggay',
+                                  fontSize: 18,
+                                  fontFamily: 'Bold',
+                                  color: Colors.black),
                             ),
-                        ]),
+                            DataColumn(
+                              label: TextWidget(
+                                  text: 'Name',
+                                  fontSize: 18,
+                                  fontFamily: 'Bold',
+                                  color: Colors.black),
+                            ),
+                            DataColumn(
+                              label: TextWidget(
+                                  text: 'Date',
+                                  fontSize: 18,
+                                  fontFamily: 'Bold',
+                                  color: Colors.black),
+                            ),
+                            DataColumn(
+                              label: TextWidget(
+                                  text: 'Incident',
+                                  fontSize: 18,
+                                  fontFamily: 'Bold',
+                                  color: Colors.black),
+                            ),
+                            DataColumn(
+                              label: TextWidget(
+                                  text: 'Status',
+                                  fontSize: 18,
+                                  fontFamily: 'Bold',
+                                  color: Colors.black),
+                            ),
+                          ], rows: [
+                            for (int i = 0; i < data.docs.length; i++)
+                              DataRow(
+                                cells: [
+                                  DataCell(
+                                    TextWidget(
+                                        text: data.docs[i]['address'],
+                                        fontSize: 14,
+                                        fontFamily: 'Regular',
+                                        color: Colors.grey),
+                                  ),
+                                  DataCell(
+                                    TextWidget(
+                                        text: data.docs[i]['name'],
+                                        fontSize: 14,
+                                        fontFamily: 'Regular',
+                                        color: Colors.grey),
+                                  ),
+                                  DataCell(
+                                    TextWidget(
+                                        text: DateFormat.yMMMd()
+                                            .add_jm()
+                                            .format(data.docs[i]['dateTime']
+                                                .toDate()),
+                                        fontSize: 14,
+                                        fontFamily: 'Regular',
+                                        color: Colors.grey),
+                                  ),
+                                  DataCell(
+                                    TextWidget(
+                                        text: data.docs[i]['caption'],
+                                        fontSize: 14,
+                                        fontFamily: 'Regular',
+                                        color: Colors.grey),
+                                  ),
+                                  DataCell(
+                                    TextWidget(
+                                        text: data.docs[i]['status'],
+                                        fontSize: 14,
+                                        fontFamily: 'Regular',
+                                        color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                          ]),
+                        ),
                       );
                     }),
               ],
