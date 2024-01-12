@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../services/add_message.dart';
 import '../../widgets/text_widget.dart';
@@ -63,18 +64,83 @@ class _MessagesTabState extends State<MessagesTab> {
                       child: ListView.builder(
                         itemCount: data1.docs.length,
                         itemBuilder: (context, index1) {
-                          return ListTile(
-                            leading: const Icon(
-                              Icons.account_circle_outlined,
-                            ),
-                            title: TextWidget(
-                              text: data1.docs[index1]['msg'],
-                              fontSize: 18,
-                            ),
-                            subtitle: TextWidget(
-                              text: data1.docs[index1]['name'],
-                              fontSize: 14,
-                            ),
+                          return Row(
+                            mainAxisAlignment:
+                                data1.docs[index1]['name'] == 'Admin'
+                                    ? MainAxisAlignment.end
+                                    : MainAxisAlignment.start,
+                            children: [
+                              data1.docs[index1]['name'] != 'Admin'
+                                  ? const Padding(
+                                      padding: EdgeInsets.only(left: 5),
+                                      child: CircleAvatar(
+                                        minRadius: 15,
+                                        maxRadius: 15,
+                                        child:
+                                            Icon(Icons.account_circle_rounded),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                              Column(
+                                crossAxisAlignment:
+                                    data1.docs[index1]['name'] == 'Admin'
+                                        ? CrossAxisAlignment.end
+                                        : CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 15.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(20.0),
+                                        topRight: const Radius.circular(20.0),
+                                        bottomLeft: data1.docs[index1]
+                                                    ['name'] ==
+                                                'Admin'
+                                            ? const Radius.circular(20.0)
+                                            : const Radius.circular(0.0),
+                                        bottomRight: data1.docs[index1]
+                                                    ['name'] ==
+                                                'Admin'
+                                            ? const Radius.circular(0.0)
+                                            : const Radius.circular(20.0),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      data1.docs[index1]['msg'],
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16.0,
+                                          fontFamily: 'QRegular'),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      '${DateFormat.jm().format(data1.docs[index1]['dateTime'].toDate())} - ${data1.docs[index1]['name']}',
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 11.0,
+                                          fontFamily: 'QRegular'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              data1.docs[index1]['name'] == 'Admin'
+                                  ? const Padding(
+                                      padding: EdgeInsets.only(right: 5),
+                                      child: CircleAvatar(
+                                        minRadius: 15,
+                                        maxRadius: 15,
+                                        child:
+                                            Icon(Icons.account_circle_rounded),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                            ],
                           );
                         },
                       ),
