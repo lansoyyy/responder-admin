@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 Future addNotif(
     name, contactnumber, address, caption, imageURL, lat, long) async {
@@ -10,7 +9,7 @@ Future addNotif(
     'address': address,
     'caption': caption,
     'status': 'Crisis',
-    'userId': FirebaseAuth.instance.currentUser!.uid,
+    'userId': '',
     'contactnumber': contactnumber,
     'imageURL': imageURL,
     'dateTime': DateTime.now(),
